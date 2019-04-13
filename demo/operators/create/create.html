@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="name:wuqian;qq:1404806482">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rxjs-demo</title>
+    <script src="../../../js/Rx-5.5.0.js"></script>
+</head>
+<body>
+    <script>
+        const Observable  = Rx.Observable;
+
+        const test = {
+            demo1: () => {
+                var observable = Observable.create((observer) => {
+                    observer.next(1);
+                    observer.next(2);
+                    observer.next(3);
+                    // observer.error();
+                    observer.complete();
+                });
+                
+                var observer = {
+                    next: res => {
+                        console.log(res)
+                        if (res === 2) {
+
+                        }
+                    },
+                    error: err => {},  
+                    complete: () => {
+                        console.log('complete')
+                    }
+                };
+
+                const subscribe = observable.subscribe(observer);
+                
+                subscribe.unsubscribe();
+            },
+            from: () => {
+                function* generator(speed) {
+                    var i = speed;
+                    while (true) {
+                        yield i;
+                        i = 2 * i;
+                    }
+                }
+                
+                var iterator = generator(3);
+                var result = Observable.from(iterator).take(10);
+
+                var observer = {
+                    next: res => {
+                        console.log(res)
+                        if (res === 2) {
+
+                        }
+                    },
+                    error: err => {},  
+                    complete: () => console.log('complete')
+                };
+
+                const subscribe = result.subscribe(observer);
+                
+                subscribe.unsubscribe();
+            },
+            from1: () => {
+                const arr = [1,2,3];
+                var result = Observable.from(arr)
+                .concatMap((item, index) => {
+                    Observable.of(1)
+                    .delay(0)
+                    .subscribe(res => {
+                        console.log('map',item)
+                    })
+                    return Observable.of(1000).delay(50);
+                })
+
+                var observer = {
+                    next: res => {
+                        console.log('next',res)
+                    },
+                    error: err => {},  
+                    complete: () => console.log('complete')
+                };
+
+                const subscribe = result.subscribe(observer);
+                
+                // subscribe.unsubscribe();
+            },
+        };
+        test.from1();
+    </script>
+</body>
+</html>
