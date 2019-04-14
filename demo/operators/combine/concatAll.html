@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="name:wuqian;qq:1404806482">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rxjs-create操作符</title>
+    <script src="../../../js/Rx-5.5.0.js"></script>
+</head>
+<body>
+    <button>点击</button>
+    <script>
+        const Observable  = Rx.Observable;
+        var clicks = Observable.fromEvent(document, 'click');
+        var hightOrder = clicks.map(ev => Observable.interval(1000).take(4));
+        var firstOrder = hightOrder.concatAll();
+        firstOrder.subscribe(res => {
+            console.log(res);
+        })
+    </script>
+</body>
+</html>
