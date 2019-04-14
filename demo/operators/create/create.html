@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="author" content="name:wuqian;qq:1404806482">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>rxjs-demo</title>
+    <title>rxjs-create操作符</title>
     <script src="../../../js/Rx-5.5.0.js"></script>
 </head>
 <body>
@@ -12,7 +12,8 @@
         const Observable  = Rx.Observable;
 
         const test = {
-            demo1: () => {
+            // create操作符测试
+            createDemo: () => {
                 var observable = Observable.create((observer) => {
                     observer.next(1);
                     observer.next(2);
@@ -38,7 +39,9 @@
                 
                 subscribe.unsubscribe();
             },
-            from: () => {
+
+            // from操作符与迭代器函数测试
+            iterator: () => {
                 function* generator(speed) {
                     var i = speed;
                     while (true) {
@@ -65,16 +68,49 @@
                 
                 subscribe.unsubscribe();
             },
-            from1: () => {
+
+            /** 
+             * 同步代码异步执行
+             * 解决：concatMap 流与上次迭代 next 同时执行
+             * 结果：console.log('concatMap',item) 与 console.log('next',res) 执行延时
+             * 场景：强制让 concatMap内的同步代码 优先于上次迭代 next方法内同步代码执行
+             * 应用：解决angular结果页组件封装时“执行中”状态bug
+             */
+            asyncDemo: () => {
                 const arr = [1,2,3];
                 var result = Observable.from(arr)
                 .concatMap((item, index) => {
                     Observable.of(1)
                     .delay(0)
                     .subscribe(res => {
-                        console.log('map',item)
+                        console.log('concatMap',item)
                     })
-                    return Observable.of(1000).delay(50);
+                    return Observable.of(1000).delay(10);
+                })
+
+                var observer = {
+                    next: res => {
+                        console.log('next',res)
+                    },
+                    error: err => {},  
+                    complete: () => console.log('complete')
+                };
+
+                const subscribe = result.subscribe(observer);
+                
+                // subscribe.unsubscribe();
+            },
+
+            concatDemo: () => {
+                const arr = [1,2,3];
+                var result = Observable.from(arr)
+                .concatMap((item, index) => {
+                    Observable.of(1)
+                    .delay(0)
+                    .subscribe(res => {
+                        console.log('concatMap',item)
+                    })
+                    return Observable.of(1000).delay(10);
                 })
 
                 var observer = {
@@ -90,7 +126,9 @@
                 // subscribe.unsubscribe();
             },
         };
-        test.from1();
+
+        // 执行示例
+        test.concatDemo();
     </script>
 </body>
 </html>
