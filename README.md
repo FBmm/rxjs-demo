@@ -1,21 +1,15 @@
-# rxjs文档
+# rxjs-demo
 
-## 一、rxjs入门
+自己学习时的一点心得，由于本人能力有限，所以疏漏和错误之处不可避免。初衷是为了自己能够加深理解能够方便大家。如大家发现疏漏错误的地方请及时告知，以免误导他人。最后，我强烈建议大家有能力的最好能阅读英文官方原文并以此为标准，而把译文当做参考。
 
-RxJS 是一个库，它通过使用 observable 序列来编写异步和基于事件的程序。它提供了一个核心类型 Observable，附属类型 (Observer、 Schedulers、 Subjects) 和受 [Array#extras] 启发的操作符 (map、filter、reduce、every, 等等)，这些数组操作符可以把异步事件作为集合来处理。
+[rxjs中文官方文档](https://cn.rx.js.org/manual/overview.html)
 
-> 可以把 RxJS 当做是用来处理事件的 Lodash 。
+**此项目包括：**
 
-ReactiveX 结合了 观察者模式、迭代器模式 和 使用集合的函数式编程，以满足以一种理想方式来管理事件序列所需要的一切。
+- **1. rxjs文档**
 
-**在 RxJS 中用来解决异步事件管理的的基本概念是：**
+- **2. rxjs示例**
 
-* **Observable (可观察对象):** 表示一个概念，这个概念是一个可调用的未来值或事件的集合。
-* **Observer (观察者):** 一个回调函数的集合，它知道如何去监听由 Observable 提供的值。
-* **Subscription (订阅):** 表示 Observable 的执行，主要用于取消 Observable 的执行。
-* **Operators (操作符):** 采用函数式编程风格的纯函数 (pure function)，使用像 map、filter、concat、flatMap 等这样的操作符来处理集合。
-* **Subject (主体):** 相当于 EventEmitter，并且是将值或事件多路推送给多个 Observer 的唯一方式。
-* **Schedulers (调度器):** 用来控制并发并且是中央集权的调度员，允许我们在发生计算时进行协调，例如 setTimeout 或 requestAnimationFrame 或其他。
-## 二、 操作符
+- **3. rxjs应用**
 
-### 1. 创建操作符
+- **4. rxjs游戏**
